@@ -4,11 +4,11 @@
 #KEYMAP="KEYMAP=es"
 #KEYLAYOUT="es"
 #pico 
+#localectl set-x11-keymap latam pc105
 
 
 
-
-loadkeys la-latin1
+loadkeys latam
 mkfs.ext4 /dev/sda3
 mount /dev/sda3 /mnt
 pacstrap /mnt linux-lts linux-firmware base nano os-prober ntfs-3g grub networkmanager dhcpcd 
@@ -22,7 +22,7 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Santiago /etc/localtime
 
 echo "modificar idioma sistema"
 
-arch-chroot /mnt sed -i 's/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
+arch-chroot /mnt sed -i 's/#es_CL.UTF-8 UTF-8/es_CL.UTF-8 UTF-8/' /etc/locale.gen
 
 #sed -i "es_ES.UTF-8 UTF-8" /etc/locale.gen
 #sed -i "es_ES ISO-8859-1" /etc/locale.gen
@@ -32,8 +32,8 @@ arch-chroot /mnt locale-gen
 arch-chroot /mnt hwclock -w
 
 
-arch-chroot /mnt echo KEYMAP=la-latin1 > /mnt/etc/vconsole.conf
-arch-chroot /mnt echo LANG=es_ES.UTF8 > /etc/locale.conf
+arch-chroot /mnt echo KEYMAP=latam > /mnt/etc/vconsole.conf
+arch-chroot /mnt echo LANG=es_CL.UTF8 > /etc/locale.conf
 
 
 #arch-chroot /mnt pacman -Syu --noconfirm --needed grub-install mnt/dev/sda
@@ -107,3 +107,4 @@ arch-chroot /mnt passwd
 arch-chroot /mnt useradd -m aaalinux
 echo "ingrese paasword usuario"
 arch-chroot /mnt passwd aaalinux
+
