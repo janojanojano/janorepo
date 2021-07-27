@@ -3,7 +3,7 @@
 #LOCALE_CONF=("LANG=es_ES.UTF-8" "LANGUAGE=es_ES:es:en_US:en")
 #KEYMAP="KEYMAP=es"
 #KEYLAYOUT="es"
-
+#pico 
 
 
 
@@ -16,31 +16,37 @@ genfstab /mnt >> /mnt/etc/fstab
 
 
 #arch-chroot /mnt
-echo aaalinux-pc > /mnt/etc/hostname
+arch-chroot /mnt echo aaalinux-pc > /mnt/etc/hostname
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Santiago /etc/localtime
 
 echo "modificar idioma sistema"
-#nano /etc/locale.gen
 
+arch-chroot /mnt sed -i 's/#es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
 
-LOCALES=("es_ES.UTF-8 UTF-8")
-sed "s/#$LOCALES/$LOCALES/" /etc/locale.gen
 #sed -i "es_ES.UTF-8 UTF-8" /etc/locale.gen
 #sed -i "es_ES ISO-8859-1" /etc/locale.gen
-locale-gen
+
 arch-chroot /mnt locale-gen
 
 arch-chroot /mnt hwclock -w
 
 
-echo KEYMAP=la-latin1 > /mnt/etc/vconsole.conf
-echo LANG=es_ES.UTF8 > /etc/locale.conf
+arch-chroot /mnt echo KEYMAP=la-latin1 > /mnt/etc/vconsole.conf
+arch-chroot /mnt echo LANG=es_ES.UTF8 > /etc/locale.conf
 
 
-arch-chroot /mnt pacman -Syu --noconfirm --needed grub-install /dev/sda
+#arch-chroot /mnt pacman -Syu --noconfirm --needed grub-install mnt/dev/sda
+#arch-chroot /mnt grub-mkconfig -o mnt/boot/grub/grub.cfg
+
+
+arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda
+
 arch-chroot /mnt os-prober
-arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+
+arch-chroot /mnt grub-mkconfig -o boot/grub/grub.cfg
+
+
 
 
 
@@ -63,41 +69,12 @@ arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 
 
-
-
-#printf "$ROOT_PASSWORD\n$ROOT_PASSWORD" | arch-chroot /mnt passwd
-
-
-#echo "ingrese paasword root"
-#read valor
-#arch-chroot /mnt passwd $valor
-
-
-
-#arch-chroot /mnt useradd -m aaalinux
-#echo "ingrese paasword root"
-#read valor
-#arch-chroot /mnt passwd aaalinux $valor
-#useradd -m aaalinux
-#arch-chroot /mnt passwd aaalinux
-
-#echo "paasword usuario"
-#passwd aaalinux
-
-
 #function create_user_useradd() {
 #    USER=$1
 #    PASSWORD=$2
 #    arch-chroot /mnt useradd -m -G wheel,storage,optical -s /bin/bash $USER
 #    printf "$PASSWORD\n$PASSWORD" | arch-chroot /mnt passwd $USER
 #}
-
-
-
-
-
-#exit
-#reboot
 
 
 
@@ -123,7 +100,6 @@ arch-chroot /mnt systemctl enable lxdm.service
 
 
 echo "ingrese paasword root"
-#read valor
 arch-chroot /mnt passwd
 
 
@@ -131,16 +107,3 @@ arch-chroot /mnt passwd
 arch-chroot /mnt useradd -m aaalinux
 echo "ingrese paasword usuario"
 arch-chroot /mnt passwd aaalinux
-
-
-
-
-
-
-
-
-
-
-
-
-
