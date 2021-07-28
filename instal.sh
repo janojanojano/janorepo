@@ -8,7 +8,7 @@
 
 
 
-loadkeys latam
+loadkeys la-latin1
 mkfs.ext4 /dev/sda3
 mount /dev/sda3 /mnt
 pacstrap /mnt linux-lts linux-firmware base nano os-prober ntfs-3g grub networkmanager dhcpcd 
@@ -32,7 +32,7 @@ arch-chroot /mnt locale-gen
 arch-chroot /mnt hwclock -w
 
 
-arch-chroot /mnt echo KEYMAP=latam > /mnt/etc/vconsole.conf
+arch-chroot /mnt echo KEYMAP=la-latin1 > /mnt/etc/vconsole.conf
 arch-chroot /mnt echo LANG=es_CL.UTF8 > /etc/locale.conf
 
 
